@@ -1,0 +1,14 @@
+- if access_log_stats.size > 0
+  %table
+    %tbody
+      %tr
+        %th Host
+        %th HTTP status code
+        %th Request
+        %th Hits
+      - access_log_stats.each do |statistic|
+        %tr
+          %td= statistic.host
+          %td= statistic.status
+          %td= statistic.request
+          %td= statistic.count

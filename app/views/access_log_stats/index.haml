@@ -1,0 +1,27 @@
+%h2 Access log statistics
+= link_to 'Launch analysis', access_log_stats_run_path, remote: true, id: 'job-launcher'
+|
+= link_to 'Jobs statuses', '/resque', target: '_blank'
+%h3#stats-4xx-header Statistics for 4xx statuses
+#stats-4xx-box
+  = render partial: 'access_log_stats_list', locals: { access_log_stats: @access_log_stats_4xx}
+%h3#stats-5xx-header Statistics for 5xx statuses
+#stats-5xx-box
+  = render partial: 'access_log_stats_list', locals: { access_log_stats: @access_log_stats_5xx}
+
+:javascript
+  $("#stats-4xx-header").click(function() {
+    $("#stats-4xx-box").toggle();
+  })
+  $("#stats-5xx-header").click(function() {
+    $("#stats-5xx-box").toggle();
+  })
+  $("#job-launcher")
+    .on('ajax:success', function(evt, data, xhr, status) {
+    alert(data.msg);
+    })
+    .on('ajax:error', function(evt, xhr, status) {
+      var json = $.parseJSON(xhr.responseText);
+      alert(json.msg);
+    })
+
